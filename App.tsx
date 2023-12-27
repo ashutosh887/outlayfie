@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Main from './components/common/Main';
-import {appName, appVersion} from './utils/common';
+import Main from './src/components/common/Main';
+import {appName, appVersion} from './src/utils/common';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
