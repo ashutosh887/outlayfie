@@ -13,7 +13,8 @@ import {sampleTrips} from '../config/data';
 import randomImage from '../utils/randomImages';
 import EmptyTripsList from '../components/home/EmptyTripsList';
 
-const HomeScreen = () => {
+// @ts-ignore
+const HomeScreen = ({navigation: {navigate}}) => {
   return (
     <ScreenWrapper style={styles.wrapper}>
       <View style={styles.navBarView}>
@@ -32,7 +33,9 @@ const HomeScreen = () => {
         <View style={styles.tripsHeader}>
           <Text style={styles.tripsHeading}>Recent Trips:</Text>
 
-          <TouchableOpacity style={styles.tripsTouchable}>
+          <TouchableOpacity
+            style={styles.tripsTouchable}
+            onPress={() => navigate('AddTrip')}>
             <Text style={styles.tripAdd}>Add Trip</Text>
           </TouchableOpacity>
         </View>

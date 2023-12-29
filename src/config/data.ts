@@ -24,6 +24,6 @@ export const sampleTrips: TRIP[] = [
   {
     id: '5',
     country: 'India',
-    city: 'Gokarna',
+    city: 'Indore',
   },
 ];
