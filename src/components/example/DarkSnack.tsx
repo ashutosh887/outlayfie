@@ -3,12 +3,12 @@ import {
   SafeAreaView,
   StatusBar,
   StyleProp,
+  Text,
+  View,
   ViewStyle,
   useColorScheme,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Main from '../common/Main';
-import {appName} from '../../utils/config';
 
 export function DarkSnack(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,7 +23,9 @@ export function DarkSnack(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <Main title={appName} version={appName} />
+      <View>
+        <Text>Dark Snack Bar Component</Text>
+      </View>
     </SafeAreaView>
   );
 }
