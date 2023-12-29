@@ -1,7 +1,16 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import ScreenWrapper from '../components/common/ScreenWrapper';
-import {appName} from '../utils/config';
+import {appName} from '../config/constants';
+import {sampleTrips} from '../config/data';
+import randomImage from '../utils/randomImages';
 
 const HomeScreen = () => {
   return (
@@ -19,11 +28,36 @@ const HomeScreen = () => {
       </View>
 
       <View style={styles.tripsView}>
-        <Text style={styles.tripsHeading}>Recent Trips:</Text>
+        <View style={styles.tripsHeader}>
+          <Text style={styles.tripsHeading}>Recent Trips:</Text>
 
-        <TouchableOpacity style={styles.tripsTouchable}>
-          <Text>Add Trip</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.tripsTouchable}>
+            <Text style={styles.tripAdd}>Add Trip</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.trips}>
+          <FlatList
+            data={sampleTrips}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            columnWrapperStyle={styles.flatListStyle}
+            renderItem={({item}) => {
+              return (
+                <TouchableOpacity
+                  style={styles.tripTouchable}
+                  activeOpacity={0.5}>
+                  <View style={styles.tripCard}>
+                    <Image source={randomImage()} style={styles.tripImage} />
+                    <Text style={styles.city}>{item.city}</Text>
+                    <Text style={styles.country}>{item.country}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </View>
       </View>
     </ScreenWrapper>
   );
@@ -55,18 +89,26 @@ const styles = StyleSheet.create({
   bannerView: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
     height: 240,
-    width: 360,
+    width: 366,
     margin: 12,
     backgroundColor: '#bfdbfe',
     borderRadius: 10,
   },
   tripsView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     padding: 12,
+  },
+  trips: {
+    height: 450,
+  },
+  tripsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
   tripsHeading: {
     color: 'gray',
@@ -80,6 +122,30 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 6,
+  },
+  tripAdd: {
+    fontSize: 12,
+  },
+  flatListStyle: {
+    justifyContent: 'space-between',
+  },
+  tripTouchable: {
+    borderRadius: 15,
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: 'white',
+  },
+  tripCard: {},
+  tripImage: {
+    height: 160,
+    width: 160,
+  },
+  city: {
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  country: {
+    fontSize: 14,
   },
 });
 
