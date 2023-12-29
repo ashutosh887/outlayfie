@@ -11,6 +11,7 @@ import ScreenWrapper from '../components/common/ScreenWrapper';
 import {appName} from '../config/constants';
 import {sampleTrips} from '../config/data';
 import randomImage from '../utils/randomImages';
+import EmptyTripsList from '../components/home/EmptyTripsList';
 
 const HomeScreen = () => {
   return (
@@ -56,6 +57,9 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               );
             }}
+            ListEmptyComponent={
+              <EmptyTripsList message="You haven't recorded any trips yet!" />
+            }
           />
         </View>
       </View>
