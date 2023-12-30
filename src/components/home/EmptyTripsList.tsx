@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import React from 'react';
 
 type Props = {
@@ -7,23 +7,11 @@ type Props = {
 
 const EmptyTripsList = ({message}: Props) => {
   return (
-    <View style={styles.container}>
-      <Image source={require('../../assets/empty.png')} style={styles.image} />
+    <View className="flex justify-center items-center h-80">
+      <Image source={require('../../assets/empty.png')} className="h-48 w-48" />
       <Text>{message || 'Nothing to show...'}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    height: 200,
-    width: 200,
-  },
-});
 
 export default EmptyTripsList;

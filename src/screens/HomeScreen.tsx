@@ -17,30 +17,37 @@ import EmptyTripsList from '../components/home/EmptyTripsList';
 const HomeScreen = ({navigation: {navigate}}) => {
   return (
     <ScreenWrapper style={styles.wrapper}>
-      <View style={styles.navBarView} className="flex">
-        <Text style={styles.appName}>{appName.toUpperCase()}</Text>
+      <View className="flex-row justify-between items-center p-2 px-3">
+        <Text className="text-2xl font-semibold">{appName.toUpperCase()}</Text>
 
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          className="p-2 px-3 bg-white rounded-lg border border-gray-500">
           <Text>Logout</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.bannerView}>
-        <Image source={require('../assets/banner.png')} style={styles.logo} />
+      <View className="flex-row items-center justify-center w-full p-2 px-3">
+        <Image
+          source={require('../assets/banner.png')}
+          className="h-56 w-full bg-blue-200 rounded-lg"
+        />
       </View>
 
-      <View style={styles.tripsView}>
-        <View style={styles.tripsHeader}>
-          <Text style={styles.tripsHeading}>Recent Trips:</Text>
+      <View className="flex flex-col">
+        <View className="flex flex-row justify-between items-center p-2 px-3">
+          <Text className="text-gray-500 font-medium text-lg">
+            Recent Trips:
+          </Text>
 
           <TouchableOpacity
-            style={styles.tripsTouchable}
+            className="p-1 px-2 bg-white border border-gray-500 rounded-md"
             onPress={() => navigate('AddTrip')}>
-            <Text style={styles.tripAdd}>Add Trip</Text>
+            <Text className="text-xs">Add Trip +</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.trips}>
+        <View className="px-3" style={styles.trips}>
           <FlatList
             data={sampleTrips}
             numColumns={2}
@@ -50,13 +57,11 @@ const HomeScreen = ({navigation: {navigate}}) => {
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
-                  style={styles.tripTouchable}
+                  className="rounded-lg bg-white my-2 p-2 py-3"
                   activeOpacity={0.5}>
-                  <View style={styles.tripCard}>
-                    <Image source={randomImage()} style={styles.tripImage} />
-                    <Text style={styles.city}>{item.city}</Text>
-                    <Text style={styles.country}>{item.country}</Text>
-                  </View>
+                  <Image source={randomImage()} className="h-40 w-40" />
+                  <Text className="text-xl font-bold">{item.city}</Text>
+                  <Text className="text-sm">{item.country}</Text>
                 </TouchableOpacity>
               );
             }}
@@ -74,85 +79,11 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
-  navBarView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: 20,
-    padding: 12,
-  },
-  appName: {
-    fontWeight: '700',
-    fontSize: 24,
-  },
-  touchable: {
-    padding: 6,
-    paddingHorizontal: 16,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 8,
-  },
-  bannerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    height: 240,
-    width: 366,
-    margin: 12,
-    backgroundColor: '#bfdbfe',
-    borderRadius: 10,
-  },
-  tripsView: {
-    padding: 12,
-  },
   trips: {
-    height: 450,
-  },
-  tripsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
-  tripsHeading: {
-    color: 'gray',
-    fontWeight: '500',
-    fontSize: 18,
-  },
-  tripsTouchable: {
-    padding: 6,
-    paddingHorizontal: 12,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 6,
-  },
-  tripAdd: {
-    fontSize: 12,
+    height: 500,
   },
   flatListStyle: {
     justifyContent: 'space-between',
-  },
-  tripTouchable: {
-    borderRadius: 15,
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: 'white',
-  },
-  tripCard: {},
-  tripImage: {
-    height: 160,
-    width: 160,
-  },
-  city: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  country: {
-    fontSize: 14,
   },
 });
 
