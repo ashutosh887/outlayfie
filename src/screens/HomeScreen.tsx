@@ -17,7 +17,7 @@ import EmptyTripsList from '../components/home/EmptyTripsList';
 const HomeScreen = ({navigation: {navigate}}) => {
   return (
     <ScreenWrapper style={styles.wrapper}>
-      <View style={styles.navBarView}>
+      <View style={styles.navBarView} className="flex">
         <Text style={styles.appName}>{appName.toUpperCase()}</Text>
 
         <TouchableOpacity style={styles.touchable}>
