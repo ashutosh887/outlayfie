@@ -1,22 +1,19 @@
-import {StyleProp, View, ViewStyle} from 'react-native';
+import {StatusBar} from 'react-native';
 import React from 'react';
 
 import type {PropsWithChildren} from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {colors} from '../../config/constants';
 
-type Props = PropsWithChildren<{
-  style?: StyleProp<ViewStyle>;
-}>;
+type Props = PropsWithChildren<{}>;
 
-// wrapper for screens
-// TODO: add SafeArea handling & StatusBar
-const ScreenWrapper = ({children, style}: Props): React.JSX.Element => {
-  // const statusBarHeight = StatusBar.currentHeight
-  //   ? StatusBar.currentHeight
-  //   : Platform.OS === 'ios'
-  //   ? 30
-  //   : 0;
-
-  return <View style={style}>{children}</View>;
+const ScreenWrapper = ({children}: Props): React.JSX.Element => {
+  return (
+    <SafeAreaView>
+      <StatusBar backgroundColor={colors.heading} />
+      {children}
+    </SafeAreaView>
+  );
 };
 
 export default ScreenWrapper;
