@@ -7,6 +7,8 @@ type Props = PropsWithChildren<{
   style?: StyleProp<ViewStyle>;
 }>;
 
+// wrapper for screens
+// TODO: add SafeArea handling & StatusBar
 const ScreenWrapper = ({children, style}: Props): React.JSX.Element => {
   // const statusBarHeight = StatusBar.currentHeight
   //   ? StatusBar.currentHeight
