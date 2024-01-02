@@ -6,14 +6,7 @@ import LoginScreen from '../screens/LoginScreen';
 import AddExpenseScreen from '../screens/AddExpenseScreen';
 import AddTripScreen from '../screens/AddTripScreen';
 import AllTripsScreen from '../screens/AllTripsScreen';
-
-export type AppStackNavigationParams = {
-  Home: undefined;
-  Login: undefined;
-  AddExpense: undefined;
-  AddTrip: undefined;
-  AllTrips: undefined;
-};
+import {AppStackNavigationParams} from '../config/types';
 
 const Stack = createNativeStackNavigator<AppStackNavigationParams>();
 
