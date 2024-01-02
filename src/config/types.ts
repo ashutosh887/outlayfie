@@ -6,7 +6,9 @@ export type TRIP = {
 
 export type AppStackNavigationParams = {
   Home: undefined;
-  Login: undefined;
+  Welcome: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
   AddExpense: {id: string; city: string; country: string};
   AddTrip: undefined;
   AllTrips: undefined;
@@ -26,3 +28,8 @@ export type ExpenseCategory =
   | 'shopping'
   | 'entertainment'
   | 'other';
+
+export type Category = {
+  title: string;
+  value: ExpenseCategory;
+};

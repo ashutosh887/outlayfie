@@ -1,4 +1,4 @@
-import {ExpenseItem, TRIP} from './types';
+import {Category, ExpenseItem, TRIP} from './types';
 
 export const sampleTrips: TRIP[] = [
   {
@@ -66,5 +66,28 @@ export const sampleExpenseItems: ExpenseItem[] = [
     title: 'Watched a Movie',
     amount: 300,
     category: 'entertainment',
+  },
+];
+
+export const sampleCategories: Category[] = [
+  {
+    title: 'Food',
+    value: 'food',
+  },
+  {
+    title: 'Shopping',
+    value: 'shopping',
+  },
+  {
+    title: 'Entertainment',
+    value: 'entertainment',
+  },
+  {
+    title: 'Commute',
+    value: 'commute',
+  },
+  {
+    title: 'Other',
+    value: 'other',
   },
 ];
