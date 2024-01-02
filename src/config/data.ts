@@ -1,4 +1,4 @@
-import {TRIP} from './types';
+import {ExpenseItem, TRIP} from './types';
 
 export const sampleTrips: TRIP[] = [
   {
@@ -45,5 +45,26 @@ export const sampleTrips: TRIP[] = [
     id: '9',
     country: 'India',
     city: 'Hyderabad',
+  },
+];
+
+export const sampleExpenseItems: ExpenseItem[] = [
+  {
+    id: '1',
+    title: 'Ate Chole Kulche',
+    amount: 120,
+    category: 'food',
+  },
+  {
+    id: '2',
+    title: 'Bought a Chocolate',
+    amount: 10,
+    category: 'shopping',
+  },
+  {
+    id: '3',
+    title: 'Watched a Movie',
+    amount: 300,
+    category: 'entertainment',
   },
 ];
