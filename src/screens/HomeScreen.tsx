@@ -16,7 +16,7 @@ import EmptyTripsList from '../components/home/EmptyTripsList';
 // @ts-ignore
 const HomeScreen = ({navigation: {navigate}}) => {
   return (
-    <ScreenWrapper style={styles.wrapper}>
+    <ScreenWrapper>
       <View className="flex-row justify-between items-center p-2 px-3">
         <Text className="text-2xl font-semibold">{appName.toUpperCase()}</Text>
 
@@ -54,6 +54,7 @@ const HomeScreen = ({navigation: {navigate}}) => {
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id}
             columnWrapperStyle={styles.flatListStyle}
+            scrollEnabled={true}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
@@ -76,9 +77,6 @@ const HomeScreen = ({navigation: {navigate}}) => {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
   trips: {
     height: 500,
   },

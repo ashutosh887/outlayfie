@@ -9,7 +9,7 @@ type Props = PropsWithChildren<{}>;
 
 const ScreenWrapper = ({children}: Props): React.JSX.Element => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <StatusBar backgroundColor={colors.heading} />
       {children}
     </SafeAreaView>
