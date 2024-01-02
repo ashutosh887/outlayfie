@@ -12,9 +12,13 @@ import {appName} from '../config/constants';
 import {sampleTrips} from '../config/data';
 import randomImage from '../utils/randomImages';
 import EmptyTripsList from '../components/home/EmptyTripsList';
+import {AppStackNavigationParams} from '../config/types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+type Props = NativeStackScreenProps<AppStackNavigationParams, 'Home'>;
 
 // @ts-ignore
-const HomeScreen = ({navigation: {navigate}}) => {
+const HomeScreen = ({navigation}: Props) => {
   return (
     <ScreenWrapper>
       <View className="flex-row justify-between items-center p-2 px-3">
@@ -42,7 +46,7 @@ const HomeScreen = ({navigation: {navigate}}) => {
 
           <TouchableOpacity
             className="p-1 px-2 bg-white border border-gray-500 rounded-md"
-            onPress={() => navigate('AddTrip')}>
+            onPress={() => navigation.navigate('AddTrip')}>
             <Text className="text-xs">Add Trip +</Text>
           </TouchableOpacity>
         </View>
