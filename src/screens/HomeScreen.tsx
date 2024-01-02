@@ -60,10 +60,18 @@ const HomeScreen = ({navigation}: Props) => {
             columnWrapperStyle={styles.flatListStyle}
             scrollEnabled={true}
             renderItem={({item}) => {
+              const {id: tripID, city: tripCity, country: tripCountry} = item;
               return (
                 <TouchableOpacity
                   className="rounded-lg bg-white my-2 p-2 py-3"
-                  activeOpacity={0.5}>
+                  activeOpacity={0.5}
+                  onPress={() =>
+                    navigation.navigate('TripExpenses', {
+                      id: tripID,
+                      city: tripCity,
+                      country: tripCountry,
+                    })
+                  }>
                   <Image source={randomImage()} className="h-40 w-40" />
                   <Text className="text-xl font-bold">{item.city}</Text>
                   <Text className="text-sm">{item.country}</Text>
