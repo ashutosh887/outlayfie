@@ -7,6 +7,7 @@ import AddExpenseScreen from '../screens/AddExpenseScreen';
 import AddTripScreen from '../screens/AddTripScreen';
 import AllTripsScreen from '../screens/AllTripsScreen';
 import {AppStackNavigationParams} from '../config/types';
+import TripExpensesScreen from '../screens/TripExpenses';
 
 const Stack = createNativeStackNavigator<AppStackNavigationParams>();
 
@@ -18,9 +19,27 @@ const AppNavigation = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            animation: 'fade_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            animation: 'fade',
+          }}
+        />
+        <Stack.Screen
+          name="AddExpense"
+          component={AddExpenseScreen}
+          options={{
+            animation: 'slide_from_bottom',
+          }}
+        />
         <Stack.Screen
           name="AddTrip"
           component={AddTripScreen}
@@ -28,7 +47,20 @@ const AppNavigation = () => {
             animation: 'slide_from_right',
           }}
         />
-        <Stack.Screen name="AllTrips" component={AllTripsScreen} />
+        <Stack.Screen
+          name="TripExpenses"
+          component={TripExpensesScreen}
+          options={{
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="AllTrips"
+          component={AllTripsScreen}
+          options={{
+            animation: 'slide_from_bottom',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
