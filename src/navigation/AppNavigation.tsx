@@ -10,67 +10,78 @@ import TripExpensesScreen from '../screens/TripExpenses';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
 
 const Stack = createNativeStackNavigator<AppStackNavigationParams>();
 
 const AppNavigation = () => {
+  const {user} = useSelector((store: RootState) => store.user);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Welcome"
+        initialRouteName={user ? 'Home' : 'Welcome'}
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            animation: 'fade_from_bottom',
-          }}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignInScreen}
-          options={{
-            presentation: 'modal',
-          }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{
-            presentation: 'modal',
-          }}
-        />
-        <Stack.Screen
-          name="AddExpense"
-          component={AddExpenseScreen}
-          options={{
-            animation: 'slide_from_bottom',
-          }}
-        />
-        <Stack.Screen
-          name="AddTrip"
-          component={AddTripScreen}
-          options={{
-            animation: 'slide_from_right',
-          }}
-        />
-        <Stack.Screen
-          name="TripExpenses"
-          component={TripExpensesScreen}
-          options={{
-            animation: 'slide_from_right',
-          }}
-        />
-        <Stack.Screen
-          name="AllTrips"
-          component={AllTripsScreen}
-          options={{
-            animation: 'slide_from_bottom',
-          }}
-        />
+        {user ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                animation: 'fade_from_bottom',
+              }}
+            />
+            <Stack.Screen
+              name="AddExpense"
+              component={AddExpenseScreen}
+              options={{
+                animation: 'slide_from_bottom',
+              }}
+            />
+            <Stack.Screen
+              name="AddTrip"
+              component={AddTripScreen}
+              options={{
+                animation: 'slide_from_right',
+              }}
+            />
+            <Stack.Screen
+              name="TripExpenses"
+              component={TripExpensesScreen}
+              options={{
+                animation: 'slide_from_right',
+              }}
+            />
+            <Stack.Screen
+              name="AllTrips"
+              component={AllTripsScreen}
+              options={{
+                animation: 'slide_from_bottom',
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                presentation: 'modal',
+              }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUpScreen}
+              options={{
+                presentation: 'modal',
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
