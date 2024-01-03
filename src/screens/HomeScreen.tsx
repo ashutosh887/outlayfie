@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenWrapper from '../components/common/ScreenWrapper';
 import {appName} from '../config/constants';
 import {sampleTrips} from '../config/data';
@@ -14,17 +15,34 @@ import randomImage from '../utils/randomImages';
 import EmptyTripsList from '../components/home/EmptyTripsList';
 import {AppStackNavigationParams} from '../config/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {signOut} from 'firebase/auth';
+import {firebaseAuth} from '../config/firebase';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../redux/slices/user';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'Home'>;
 
 // @ts-ignore
 const HomeScreen = ({navigation}: Props) => {
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(firebaseAuth);
+      await AsyncStorage.clear();
+      dispatch(setUser(null));
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
+  };
+
   return (
     <ScreenWrapper>
       <View className="flex-row justify-between items-center p-2 px-3">
         <Text className="text-2xl font-semibold">{appName.toUpperCase()}</Text>
 
         <TouchableOpacity
+          onPress={handleLogout}
           activeOpacity={0.5}
           className="p-2 px-3 bg-white rounded-lg border border-gray-500">
           <Text>Logout</Text>

@@ -3,25 +3,43 @@ import React, {useState} from 'react';
 import ScreenWrapper from '../components/common/ScreenWrapper';
 import BackButton from '../components/common/BackButton';
 import {colors} from '../config/constants';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AppStackNavigationParams} from '../config/types';
 import Loading from '../components/common/Loading';
+import Snackbar from 'react-native-snackbar';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {firebaseAuth} from '../config/firebase';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
+import {setUserLoading} from '../redux/slices/user';
 
-type Props = NativeStackScreenProps<AppStackNavigationParams, 'SignUp'>;
+// type Props = NativeStackScreenProps<AppStackNavigationParams, 'SignUp'>;
 
-export default function SignInScreen({navigation}: Props) {
+export default function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userLoading, setUserLoading] = useState(false);
+  const {userLoading} = useSelector((state: RootState) => state.user);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     if (email && password) {
-      // good to go
-      navigation.goBack();
-      navigation.navigate('Home');
-      setUserLoading(false);
+      try {
+        dispatch(setUserLoading(true));
+        await createUserWithEmailAndPassword(firebaseAuth, email, password);
+        dispatch(setUserLoading(false));
+      } catch (error) {
+        Snackbar.show({
+          // @ts-ignore
+          text: error.message,
+          backgroundColor: colors.error,
+        });
+      }
     } else {
-      // show error
+      Snackbar.show({
+        text: 'Email and Password are required',
+        backgroundColor: colors.error,
+      });
+      // TODO: remove this later
+      setUserLoading(false);
     }
   };
   return (
