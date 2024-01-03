@@ -21,7 +21,6 @@ export default function WelcomScreen({navigation}: Props) {
         <View className="flex-row justify-center mt-10">
           <Image
             // TODO: fix GIF
-            // source={require('../assets/welcome.gif')}
             source={require('../assets/logo.png')}
             className="h-80 w-80 rounded-full"
           />

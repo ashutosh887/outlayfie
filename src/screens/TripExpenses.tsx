@@ -15,6 +15,7 @@ import BackButton from '../components/common/BackButton';
 import {colors} from '../config/constants';
 import ExpenseCard from '../components/common/ExpenseCard';
 import EmptyList from '../components/trips/EmptyList';
+import {sampleExpenseItems} from '../config/data';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'TripExpenses'>;
 
@@ -25,6 +26,7 @@ export default function TripExpensesScreen({navigation, route}: Props) {
 
   const fetchExpenses = async () => {
     setExpenses([]);
+    setExpenses(sampleExpenseItems);
   };
 
   useEffect(() => {
