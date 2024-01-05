@@ -21,6 +21,7 @@ import {setUser} from '../redux/slices/user';
 import {RootState} from '../redux/store';
 import {getDocs, query, where} from 'firebase/firestore';
 import Snackbar from 'react-native-snackbar';
+import {useIsFocused} from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'Home'>;
 
@@ -31,14 +32,14 @@ const HomeScreen = ({navigation}: Props) => {
 
   const {user} = useSelector((state: RootState) => state.user);
 
-  useEffect(() => {
-    const unsubscribeFocus = navigation.addListener('focus', () => {
-      fetchTrips();
-    });
+  const isFocused = useIsFocused();
 
-    return unsubscribeFocus;
+  useEffect(() => {
+    if (isFocused) {
+      fetchTrips();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation]);
+  }, [isFocused]);
 
   const fetchTrips = async () => {
     try {
@@ -125,16 +126,13 @@ const HomeScreen = ({navigation}: Props) => {
             columnWrapperStyle={styles.flatListStyle}
             scrollEnabled={true}
             renderItem={({item}) => {
-              const {id: tripID, city: tripCity, country: tripCountry} = item;
               return (
                 <TouchableOpacity
                   className="rounded-lg bg-white my-2 p-2 py-3"
                   activeOpacity={0.5}
                   onPress={() =>
                     navigation.navigate('TripExpenses', {
-                      id: tripID,
-                      city: tripCity,
-                      country: tripCountry,
+                      ...item,
                     })
                   }>
                   <Image source={randomImage()} className="h-40 w-40" />
