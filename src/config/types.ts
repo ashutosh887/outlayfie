@@ -17,6 +17,7 @@ export type AppStackNavigationParams = {
 
 export type ExpenseItem = {
   id: string;
+  tripId: string;
   title: string;
   amount: number;
   category: ExpenseCategory;
