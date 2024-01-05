@@ -24,13 +24,13 @@ export default function AddTripScreen({navigation}: Props) {
   const handleAddTrip = async () => {
     if (city && country) {
       setLoading(true);
-      let firebaseDoc = await addDoc(firebaseTripsRef, {
+      let tripDoc = await addDoc(firebaseTripsRef, {
         city,
         country,
         userId: user.uid,
       });
       setLoading(false);
-      if (firebaseDoc && firebaseDoc.id) {
+      if (tripDoc && tripDoc.id) {
         navigation.goBack();
       }
       navigation.navigate('Home');
