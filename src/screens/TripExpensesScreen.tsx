@@ -15,7 +15,9 @@ import BackButton from '../components/common/BackButton';
 import {colors} from '../config/constants';
 import ExpenseCard from '../components/common/ExpenseCard';
 import EmptyList from '../components/trips/EmptyList';
-import {sampleExpenseItems} from '../config/data';
+import {getDocs, query, where} from 'firebase/firestore';
+import {firebaseExpensesRef} from '../config/firebase';
+import Snackbar from 'react-native-snackbar';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'TripExpenses'>;
 
@@ -25,14 +27,34 @@ export default function TripExpensesScreen({navigation, route}: Props) {
   const [expenses, setExpenses] = useState<ExpenseItem[]>([]);
 
   const fetchExpenses = async () => {
-    setExpenses([]);
-    setExpenses(sampleExpenseItems);
+    try {
+      const firebaseQuery = query(
+        firebaseExpensesRef,
+        where('tripId', '==', id),
+      );
+
+      const querySnapshot = await getDocs(firebaseQuery);
+
+      const fetchedData: ExpenseItem[] = [];
+
+      querySnapshot.forEach(expenseDoc => {
+        const expenseData = expenseDoc.data() as ExpenseItem;
+        fetchedData.push({...expenseData, tripId: id, id: expenseData.id});
+      });
+      setExpenses(fetchedData);
+    } catch (error) {
+      Snackbar.show({
+        text: 'Unable to fetch Expenses from Firebase',
+        backgroundColor: colors.error,
+      });
+    }
   };
 
   useEffect(() => {
     if (isFocused) {
       fetchExpenses();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused]);
 
   return (

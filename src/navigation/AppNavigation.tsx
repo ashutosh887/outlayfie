@@ -6,7 +6,7 @@ import AddExpenseScreen from '../screens/AddExpenseScreen';
 import AddTripScreen from '../screens/AddTripScreen';
 import AllTripsScreen from '../screens/AllTripsScreen';
 import {AppStackNavigationParams} from '../config/types';
-import TripExpensesScreen from '../screens/TripExpenses';
+import TripExpensesScreen from '../screens/TripExpensesScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
