@@ -7,6 +7,9 @@ import BackButton from '../components/common/BackButton';
 import {colors} from '../config/constants';
 import {sampleCategories} from '../config/data';
 import Loading from '../components/common/Loading';
+import Snackbar from 'react-native-snackbar';
+import {addDoc} from 'firebase/firestore';
+import {firebaseExpensesRef} from '../config/firebase';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'AddExpense'>;
 
@@ -18,15 +21,38 @@ export default function AddExpenseScreen({route, navigation}: Props) {
   const [loading, setLoading] = useState(false);
 
   const handleAddExpense = async () => {
-    if (title && amount && category) {
-      // good to go
-      console.log(id);
-      navigation.goBack();
-    } else {
-      // show error
-      setLoading(false);
+    try {
+      if (title && amount && category) {
+        setLoading(true);
+        let expenseDoc = await addDoc(firebaseExpensesRef, {
+          title,
+          amount,
+          category,
+          tripId: id,
+        });
+        setLoading(false);
+        if (expenseDoc && expenseDoc.id) {
+          navigation.goBack();
+        } else {
+          Snackbar.show({
+            text: 'Error adding expense. Please try again later.',
+            backgroundColor: colors.error,
+          });
+        }
+      } else {
+        Snackbar.show({
+          text: 'Please fill all fields...',
+          backgroundColor: colors.error,
+        });
+      }
+    } catch (error) {
+      Snackbar.show({
+        text: 'Failed to add expense. Please try again later.',
+        backgroundColor: colors.error,
+      });
     }
   };
+
   return (
     <ScreenWrapper>
       <View className="flex justify-between h-full mx-4">
