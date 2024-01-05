@@ -34,13 +34,6 @@ const HomeScreen = ({navigation}: Props) => {
 
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    if (isFocused) {
-      fetchTrips();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFocused]);
-
   const fetchTrips = async () => {
     try {
       const firebaseQuery = query(
@@ -83,6 +76,13 @@ const HomeScreen = ({navigation}: Props) => {
       console.error('Error clearing AsyncStorage:', error);
     }
   };
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchTrips();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused]);
 
   return (
     <ScreenWrapper>
