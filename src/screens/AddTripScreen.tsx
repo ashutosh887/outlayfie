@@ -6,21 +6,39 @@ import {colors} from '../config/constants';
 import Loading from '../components/common/Loading';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AppStackNavigationParams} from '../config/types';
+import {addDoc} from 'firebase/firestore';
+import {firebaseTripsRef} from '../config/firebase';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
+import Snackbar from 'react-native-snackbar';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'AddTrip'>;
 
 export default function AddTripScreen({navigation}: Props) {
-  const [place, setPlace] = useState('');
+  const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const {user} = useSelector((state: RootState) => state.user);
+
   const handleAddTrip = async () => {
-    if (place && country) {
-      // good to go
+    if (city && country) {
+      setLoading(true);
+      let firebaseDoc = await addDoc(firebaseTripsRef, {
+        city,
+        country,
+        userId: user.uid,
+      });
+      setLoading(false);
+      if (firebaseDoc && firebaseDoc.id) {
+        navigation.goBack();
+      }
       navigation.navigate('Home');
     } else {
-      // show error
-      setLoading(false);
+      Snackbar.show({
+        text: 'City and Country are required',
+        backgroundColor: colors.error,
+      });
     }
   };
   return (
@@ -42,11 +60,11 @@ export default function AddTripScreen({navigation}: Props) {
           </View>
           <View className="space-y-2 mx-2">
             <Text className={`${colors.heading} text-lg font-bold`}>
-              Where On Earth?
+              Which City On Earth?
             </Text>
             <TextInput
-              value={place}
-              onChangeText={value => setPlace(value)}
+              value={city}
+              onChangeText={value => setCity(value)}
               className="p-4 bg-white rounded-full mb-3"
             />
             <Text className={`${colors.heading} text-lg font-bold`}>
