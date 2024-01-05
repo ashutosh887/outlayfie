@@ -6,25 +6,72 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenWrapper from '../components/common/ScreenWrapper';
-import {appName} from '../config/constants';
-import {sampleTrips} from '../config/data';
+import {appName, colors} from '../config/constants';
 import randomImage from '../utils/randomImages';
 import EmptyTripsList from '../components/home/EmptyTripsList';
-import {AppStackNavigationParams} from '../config/types';
+import {AppStackNavigationParams, TRIP} from '../config/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {signOut} from 'firebase/auth';
-import {firebaseAuth} from '../config/firebase';
-import {useDispatch} from 'react-redux';
+import {firebaseAuth, firebaseTripsRef} from '../config/firebase';
+import {useDispatch, useSelector} from 'react-redux';
 import {setUser} from '../redux/slices/user';
+import {RootState} from '../redux/store';
+import {getDocs, query, where} from 'firebase/firestore';
+import Snackbar from 'react-native-snackbar';
 
 type Props = NativeStackScreenProps<AppStackNavigationParams, 'Home'>;
 
-// @ts-ignore
 const HomeScreen = ({navigation}: Props) => {
+  const [trips, setTrips] = useState<TRIP[]>([]);
+
   const dispatch = useDispatch();
+
+  const {user} = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      fetchTrips();
+    });
+
+    return unsubscribeFocus;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation]);
+
+  const fetchTrips = async () => {
+    try {
+      const firebaseQuery = query(
+        firebaseTripsRef,
+        where('userId', '==', user.uid),
+      );
+      const querySnapshot = await getDocs(firebaseQuery);
+
+      let fetchedData: TRIP[] = [];
+
+      querySnapshot.forEach(document => {
+        const data = document.data();
+        const id = document.id;
+        if ('city' in data && 'country' in data) {
+          const trip: TRIP = {
+            id: id,
+            city: data.city,
+            country: data.country,
+          };
+          fetchedData.push(trip);
+        } else {
+          console.error(`Missing required fields in document with ID ${id}`);
+        }
+      });
+      setTrips(fetchedData);
+    } catch (error) {
+      Snackbar.show({
+        text: 'Unable to fetch Trips from Firebase',
+        backgroundColor: colors.error,
+      });
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -71,7 +118,7 @@ const HomeScreen = ({navigation}: Props) => {
 
         <View className="px-3" style={styles.trips}>
           <FlatList
-            data={sampleTrips}
+            data={trips}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id}
